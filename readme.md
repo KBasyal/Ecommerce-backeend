@@ -93,3 +93,12 @@ Payment modules
     -live
     -purchase gateway
     -commission
+
+
+
+# flow til now
+/auth/register
+    ----> auth.controller.js ===> register function
+
+
+/index.js ==> create

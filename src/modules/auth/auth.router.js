@@ -1,10 +1,14 @@
 // const express = require('express');
 // const authRoute =express.Router();
 const authRoute = require('express').Router();
+// const auth = require("../../middleware/auth.middleware")
 // express ===> mount ==> middle ware
 const authCtrl = require("./auth.controller")
-const {bodyValidator}=require("../../../middleware/validator.middleware")
-const {registerDTO}= require("./auth.dto")
+const {bodyValidator}=require("../../middleware/validator.middleware")
+const auth= require("../../middleware/auth.middleware");
+const allowRole = require("../../middleware/rbac.middleware")
+
+const {registerDTO, loginDTO}= require("./auth.dto")
 
 // request manipulation 
 //next middle ware call
@@ -179,6 +183,12 @@ const {registerDTO}= require("./auth.dto")
 //       meta: null  
 //     })
 // })
-authRoute.post('/register', authCtrl.register)
-authRoute.post('/login', authCtrl.login)
+const {setPath, uploader} = require("../../middleware/uploader.middleware");
+
+authRoute.post('/register', setPath('users'),uploader.single('image'), bodyValidator(registerDTO), authCtrl.register)
+authRoute.get("/activate/:token", authCtrl.activate)
+
+authRoute.post('/login',bodyValidator(loginDTO), authCtrl.login)
+authRoute.get('/me', auth, authCtrl.getLoggedIn)
+authRoute.get("/admin", auth, allowRole('admin'), authCtrl.adminAccess)
 module.exports = authRoute;

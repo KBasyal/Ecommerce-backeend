@@ -4,9 +4,19 @@ const mainRoute = express()
 // route import
 const authRouter =require("../modules/auth/auth.router")
 const userRouter =require("../modules/user/user.router")
+const bannerRouter = require("../modules/banner/banner.router")
+const brandRouter = require("../modules/brand/brand.router")
+const categoryRouter = require("../modules/category/category.router")
+
+
 // mounting
 mainRoute.use('/auth', authRouter)// auth.router.js ==> foutes
 mainRoute.use('/user',userRouter)
+mainRoute.use("/banner", bannerRouter)
+mainRoute.use("/brand", brandRouter)
+mainRoute.use("/category", categoryRouter)
+
+
 
 mainRoute.use((request ,response , next)=>{
     //next()

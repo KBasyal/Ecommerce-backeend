@@ -7,6 +7,8 @@ const userRouter =require("../modules/user/user.router")
 const bannerRouter = require("../modules/banner/banner.router")
 const brandRouter = require("../modules/brand/brand.router")
 const categoryRouter = require("../modules/category/category.router")
+const productRouter = require("../modules/product/product.router")
+
 
 
 // mounting
@@ -15,6 +17,8 @@ mainRoute.use('/user',userRouter)
 mainRoute.use("/banner", bannerRouter)
 mainRoute.use("/brand", brandRouter)
 mainRoute.use("/category", categoryRouter)
+mainRoute.use("/category", productRouter)
+
 
 
 

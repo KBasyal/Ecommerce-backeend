@@ -1,37 +1,83 @@
-const mongoose = require ("mongoose")
-const ProductSchema = new mongoose.Schema({
-    title:{
-        type:String,
-        require:true,
-        unique: true
+const mongoose = require("mongoose");
+
+const ProductSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      min: 2,
     },
     slug:{
-        type:String,
-        require:true,
-        unique:true
+      type: String,
+      unique : true
     },
     summary:{
-        type:String,
-        require: true,
+      type: String,
+      required: true
     },
-    descritpion:{ 
-        type:s=String,
-        require:true
-    },
+    description: String,
     price:{
-        type:Number,
-        require:true
+      type : Number,
+      min: 100,
+      required : true
     },
     discount:{
-        type: Number,
+      type : Number,
+      min: 0,
+      max:90,
+      required : true
     },
     afterDiscount:{
-        //
+      type: Number,
+      required : true,
+      min: 0
     },
-    featured:{
-        type:Boolean,
-        default:false
-    }
+    categories:[{
+      type: mongoose.Types.ObjectId,
+      ref: "Category",
+      default: null
+    }],
+    brand:{
+      type: mongoose.Types.ObjectId,
+      ref: "Brand",
+      default : null
+    },
+    isFeatured:{
+      type: Boolean,
+      default: false
+    },
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "inactive",
+    },
+    image: [{
+      type: String,
+      
+    }],
+    sellerId:{
+      type:mongoose.Types.ObjectId,
+      ref:"User",
+      default: null
+    },
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    updatedBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+  },
+  {
+    timestamps: true, // createdAt, updatedAt keys area auto-added
+    autoCreate: true, // create the table
+    autoIndex: true, // indexing
+  }
+);
 
+const ProductModel = mongoose.model("Product", ProductSchema);
 
-})
+module.exports = ProductModel;

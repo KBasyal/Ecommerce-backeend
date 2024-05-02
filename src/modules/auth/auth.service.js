@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const UserModel = require("../user/user.model");
 class AuthService {
 
-    transformRegisterData = (req) => {
+    transformRegisterData =(req) => {
         try {
             let payload = req.body;
             // name , email., password, role, image

@@ -24,12 +24,12 @@ const BrandSchema = new mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
-      ref: "Users",
+      ref: "User",
       default: null,
     },
     updatedBy: {
       type: mongoose.Types.ObjectId,
-      ref: "Users",
+      ref: "User",
       default: null,
     },
   },

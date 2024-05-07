@@ -5,7 +5,7 @@ const ProductSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      min: 2,
+      min: 2
     },
     slug:{
       type: String,
@@ -25,7 +25,7 @@ const ProductSchema = new mongoose.Schema(
       type : Number,
       min: 0,
       max:90,
-      required : true
+      default:0
     },
     afterDiscount:{
       type: Number,
@@ -51,9 +51,8 @@ const ProductSchema = new mongoose.Schema(
       enum: ["active", "inactive"],
       default: "inactive",
     },
-    image: [{
+    images: [{
       type: String,
-      
     }],
     sellerId:{
       type:mongoose.Types.ObjectId,

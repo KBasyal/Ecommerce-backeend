@@ -1,4 +1,3 @@
-const router = require("express").Router()
 const auth = require("../../middleware/auth.middleware");
 const allowRole = require("../../middleware/rbac.middleware");
 const { setPath, uploader } = require("../../middleware/uploader.middleware");
@@ -6,13 +5,16 @@ const { bodyValidator } = require("../../middleware/validator.middleware");
 const productCtrl = require("./product.controller");
 const { ProductCreateDTO, ProductUpdateDTO } = require("./product.dto");
 
-router.get('/home-list', productCtrl.listForHome);
+const router = require("express").Router()
 
+router.get('/home-list', productCtrl.listForHome);
+router.get("/:slug/detail", productCtrl.getProductDetailBySlug)
 router.route('/')
-    .post(auth, 
-        allowRole('admin'),
-        setPath('category'),
-        uploader.array('images'),
+    .post(
+        auth, 
+        allowRole('admin'), 
+        setPath('products'), 
+        uploader.array('images'), 
         bodyValidator(ProductCreateDTO),
         productCtrl.create
     )
@@ -20,7 +22,7 @@ router.route('/')
         auth,
         allowRole("admin"),
         productCtrl.index
-    )
+    );
 
 router.route('/:id')
     .get(
@@ -29,9 +31,9 @@ router.route('/:id')
         productCtrl.show
     )
     .put(
-        auth, 
+        auth,
         allowRole('admin'),
-        setPath('category'),
+        setPath('product'),
         uploader.array('images'),
         bodyValidator(ProductUpdateDTO, ['images']),
         productCtrl.update

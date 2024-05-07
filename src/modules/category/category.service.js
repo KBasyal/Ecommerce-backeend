@@ -39,7 +39,7 @@ class CategoryService {
             const category = new CategoryModel(data);
             return await category.save()
         } catch (exception) {
-            (exception)
+            throw exception
         }
     }
     count = async (filter) => {

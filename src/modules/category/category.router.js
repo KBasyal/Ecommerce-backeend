@@ -7,6 +7,8 @@ const categoryCtrl = require("./category.controller");
 const { CategoryCreateDTO, CategoryUpdateDTO } = require("./category.dto");
 
 router.get('/home-list', categoryCtrl.listForHome);
+router.get('/:slug/detail', categoryCtrl.getCategoryBySlug);
+
 
 router.route('/')
     .post(auth, 

@@ -1,35 +1,34 @@
-const Joi = require("joi")
-
-const ProductCreateDTO = Joi.object({
-    title:Joi.string().min(2).required(),
-    summary:Joi.string().required(),
-    description:Joi.string().allow(null, "").optional(),
-    price:Joi.number().min(100).required(),
-    discount:Joi.number().min(0).max(90).default(0),
-    categories:Joi.array().items(Joi.string()).allow(null,"").optional(),
-    brand:Joi.string().allow(null, "").optional,
-    isFeatured:Joi.boolean().default(false),
-    sellerId:Joi.string().allow(null , "").default(null),
-    status:Joi.string().pattern(/^(active|inactive)$/).default('inactive'),
-    images : Joi.array().items(Joi.string().allow(null, "")).empty(null, "").optional().default(null),
+const joi = require("joi")
+const ProductCreateDTO = joi.object({
+    title: joi.string().min(3).required(),
+    summary: joi.string().required(),
+    description: joi.string().allow(null, "").optional().default(null),
+    price: joi.number().min(100).required(),
+    discount: joi.number().min(0).max(90).optional().default(0),
+    categories: joi.array().items(joi.string()).allow(null, "").optional().default(null),
+    brand: joi.string().required().allow(null, "").optional().default(null),
+    isFeatured: joi.boolean().default(false),
+    sellerId: joi.string().allow(null, "").default(null),
+    status: joi.string().pattern(/^(active|inactive)$/).default('inactive'),
+    images: joi.array().items(joi.string().allow(null, "")).allow(null, "").optional().default(null)
     
     
 })
-const ProductUpdateDTO = Joi.object({
-    title:Joi.string().min(2).required(),
-    summary:Joi.string().required(),
-    description:Joi.string().allow(null, "").optional(),
-    price:Joi.number().min(100).required(),
-    discount:Joi.number().min(0).max(90).default(0),
-    categories:Joi.array().items(Joi.string()).allow(null,"").optional(),
-    brand:Joi.string().allow(null, "").optional,
-    isFeatured:Joi.boolean().default(false),
-    sellerId:Joi.string().allow(null , "").default(null),
-    status:Joi.string().pattern(/^(active|inactive)$/).default('inactive'),
-    images : Joi.array().items(Joi.string().allow(null, "")).empty(null, "").optional().default(null),
-   
+const ProductUpdateDTO = joi.object({
+    title: joi.string().min(3).required(),
+    summary: joi.string().required(),
+    description: joi.string().allow(null, "").optional().default(null),
+    price: joi.number().min(100).required(),
+    discount: joi.number().min(0).max(90).optional().default(null),
+    categories: joi.array().items(joi.string()).allow(null, "").optional().default(null),
+    brand: joi.string().required().allow(null, "").optional().default(null),
+    isFeatured: joi.boolean().default(false),
+    sellerId: joi.string().allow(null, "").default(null),
+    status: joi.string().pattern(/^(active|inactive)$/).default('inactive'),
+    images: joi.array().items(joi.string().allow(null, "")).allow(null, "").optional().default(null)
+    
 })
-module.exports={
+module.exports = {
     ProductCreateDTO,
     ProductUpdateDTO
 }

@@ -11,7 +11,7 @@ const allowRole =(allowedRole)=>{
                 const role = loggedInUser.role;
                 if (typeof allowedRole === 'string' && allowedRole === role){
                     next();
-                }else if (Array.isArray(allowedRole) && allowedRole.include (role)){
+                }else if (Array.isArray(allowedRole) && allowedRole.includes(role)){
                     next();
                 }else{
                     next({code: 403, message: "You do not have prevelage to access this api"})

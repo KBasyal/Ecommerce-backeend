@@ -1,15 +1,17 @@
+const UserModel = require("./user.model");
+
 class UserService{
-    count= async ({filter})=>{
-        try{
-            const countData = await UserService.MOdel.countDocument()
+    count = async (filter) => {
+        try {
+            const countData = await UserModel.countDocuments(filter);
             return countData;
-        }catch(exception){
-            throw exception
+        } catch (exception) {
+            throw exception;
         }
     }
-    listAll = async ({ limit, skip, filter = {} }) => {
+    listAll = async ({ limit, skip, filter={} }) => {
         try {
-            const response = await ProductModel.find(filter)
+            const response = await UserModel.find(filter)
                 .populate("createdBy", ["_id", "name", "email", "role"])
                 .populate("updatedBy", ["_id", "name", "email", "role"])
                 .sort({ _id: "desc" })
@@ -17,9 +19,9 @@ class UserService{
                 .limit(limit)
             return response;
         } catch (exception) {
-            throw (exception);
+            throw exception;
         }
     }
 }
 const userSvc = new UserService()
-module.exports = userSvc
+module.exports = userSvc;

@@ -58,6 +58,11 @@ class ProductService {
             if(!data.categories || data.categories === "null" || data.categories ===""){
                 data.categories = null;
             }    
+            if(req.authUser.role === 'seller'){
+                data.sellerId =req.authUser._id;
+                //
+                data.status = 'inactive';
+            }
             data.createdBy = req.authUser._id;
             return data;
 

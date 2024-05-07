@@ -151,6 +151,91 @@ class CartDetailController{
             next(exception)
         }
     }
+    listMyOrder = async(req, res, next)=>{
+        try{
+            const loggedInUser = req.authUser;
+            let filter = {}
+            if(loggedInUser.role === 'admin'){
+                //fetch all orders
+            }else{
+                // only customers
+                filter ={
+                    buyerId: loggedInUser._id
+                }
+            }
+            if(req.query.status && ["pending", "confirmed", "cancelled","delivered"].includes(req.query.status)){
+                filter={
+                    ...filter,
+                    status: req.query.status
+                }
+                
+            }
+            const orderData= await cartDetailSvc.getOrderList(filter);
+            res.json({
+                result: orderData,
+                message: "Your Orders",
+                meta: null
+            })
+
+        }catch(exception){
+            next(exception)
+
+        }
+    }
+    myOrderList = async(req, res, next)=>{
+        try{
+            const loggedInUser= req.authUser;
+            let filter={
+                sellerId : loggedInUser._id,
+                sellerId: {$ne: null}
+            }
+            if(req.query.status && ["ordered","cancelled","completed"].includes(req.query.status)){
+                filter={
+                    ...filter,
+                    status: req.query.status
+                }
+                
+            }
+            const productItems = await  cartDetailSvc.findAll(filter)
+            res.json({
+                result: productItems,
+                message:"Your Items",
+                meta : null
+            })
+          
+        }catch(exception){
+            next(exception)
+        }
+        
+    }
+    updateOrderStatus= async(req, res, next)=>{
+        try{
+            const loggedInUser = req.authUser;
+            let cartDetailStatus
+            if(loggedInUser.role === 'seller'){
+                cartDetailStatus = await cartDetailSvc.updateCartDetail({
+                    _id: req.params.id,
+                    sellerId: loggedInUser._id
+                },{
+                    status:"completed"
+                })
+            }else{
+                cartDetailStatus= await cartDetailSvc.updateOrderDetail({
+                    _id: req.params.id
+                },{
+                    status : "completed"
+                })
+            }
+            res.json({
+                result:cartDetailStatus,
+                meta: null,
+                message: "Thank you for using our ecommerce, please visit again"
+            })
+
+        }catch(exception){
+            next(exception)
+        }
+    }
 }
 const cartDetailCtrl = new CartDetailController();
 module.exports = cartDetailCtrl;

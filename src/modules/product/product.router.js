@@ -12,7 +12,7 @@ router.get("/:slug/detail", productCtrl.getProductDetailBySlug)
 router.route('/')
     .post(
         auth, 
-        allowRole('admin'), 
+        allowRole('admin','seller'), 
         setPath('products'), 
         uploader.array('images'), 
         bodyValidator(ProductCreateDTO),
@@ -20,19 +20,19 @@ router.route('/')
     )
     .get(
         auth,
-        allowRole("admin"),
+        allowRole("admin", "seller"),
         productCtrl.index
     );
 
 router.route('/:id')
     .get(
         auth,
-        allowRole('admin'),
+        allowRole('admin','seller'),
         productCtrl.show
     )
     .put(
         auth,
-        allowRole('admin'),
+        allowRole('admin','seller'),
         setPath('product'),
         uploader.array('images'),
         bodyValidator(ProductUpdateDTO, ['images']),
@@ -40,7 +40,7 @@ router.route('/:id')
     )
     .delete(
         auth,
-        allowRole('admin'),
+        allowRole('admin','seller'),
         productCtrl.delete
     )
 

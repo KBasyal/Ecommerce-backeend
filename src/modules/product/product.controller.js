@@ -23,8 +23,10 @@ class ProductController{
             const page = +req.query.page || 1;
             const limit = +req.query.limit || 15;
             const skip = (page - 1) * limit;
-
             let filter = {};
+            const loggedInUser = req.authUser;
+
+            
             //search
             if(req.query.search){
                 //?search=product
@@ -32,6 +34,14 @@ class ProductController{
                     title: new RegExp(req.query.search, 'i')
 
                 }
+            }
+            // seller user
+            if(loggedInUser.role === "seller"){
+                filter={
+                    ...filter,
+                    sellerId: loggedInUser._id
+                }
+
             }
 
             const data = await productSvc.listAll({
@@ -58,9 +68,17 @@ class ProductController{
     
     show = async(req, res, next) =>{
         try{
-            const detail = await productSvc.findOne({
+            const loggedInUser = req.authUser;
+            let filter={
                 _id: req.params.id
-            })
+            }
+            if(loggedInUser.role === 'seller'){
+                filter= {
+                    ...filter,
+                    sellerId: loggedInUser._id
+                }
+            }
+            const detail = await productSvc.findOne(filter)
             res.json({
                 result: detail,
                 message: "Product Detail fetched",
@@ -74,9 +92,17 @@ class ProductController{
 
     update = async(req,res, next) =>{
         try{
-            const existingData = await productSvc.findOne({
+            const loggedInUser = req.authUser;
+            let filter={
                 _id: req.params.id
-            })
+            }
+            if(loggedInUser.role === 'seller'){
+                filter= {
+                    ...filter,
+                    sellerId: loggedInUser._id
+                }
+            }
+            const existingData = await productSvc.findOne(filter)
             const payload = productSvc.transformUpdateData(req, existingData)
             const updateStatus = await productSvc.update({_id: req.params.id}, payload)
             res.json({
@@ -90,7 +116,17 @@ class ProductController{
     }
     delete = async (req, res, next) =>{
         try{
-            const exists = await productSvc.findOne({_id: req.params.id})
+            const loggedInUser = req.authUser;
+            let filter={
+                _id: req.params.id
+            }
+            if(loggedInUser.role === 'seller'){
+                filter= {
+                    ...filter,
+                    sellerId: loggedInUser._id
+                }
+            }
+            await productSvc.findOne(filter)
             const status = await productSvc.deleteOne({_id: req.params.id})
             res.json({
                 result: status,

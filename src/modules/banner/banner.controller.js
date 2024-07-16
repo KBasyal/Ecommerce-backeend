@@ -19,14 +19,14 @@ class BannerController{
     }
     index = async(req, res, next)=>{
         try{
+          
             const page = +req.query.page || 1;
-            const limit = +req.query.page || 15;
-            // databse table has 1-100 id 
-            // per page 15
-            // 1-15 ===>page 1
-            const skip = (page -1)*limit;
+            const limit = +req.query.limit || 15;
+
+            const skip = (page - 1)*limit;
             let filter = {};
             if(req.query.search){
+               
                 filter = {
                     title: new RegExp(req.query.search, 'i')
                 }

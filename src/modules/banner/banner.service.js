@@ -35,7 +35,7 @@ class BannerService {
             (exception)
         }
     }
-    count = async (filter) => {
+    count = async ({filter}) => {
         try {
             const countData = await BannerModel.countDocuments(filter);
             return countData;

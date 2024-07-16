@@ -11,7 +11,6 @@ const productRouter = require("../modules/product/product.router")
 const cartRouter= require("../modules/cart/cart.router")
 
 
-
 // mounting
 mainRoute.use('/auth', authRouter)// auth.router.js ==> foutes
 mainRoute.use('/user',userRouter)
@@ -20,8 +19,6 @@ mainRoute.use("/brand", brandRouter)
 mainRoute.use("/category", categoryRouter)
 mainRoute.use("/product", productRouter)
 mainRoute.use("/order", cartRouter)
-
-
 
 
 mainRoute.use((request ,response , next)=>{

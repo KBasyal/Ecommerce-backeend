@@ -9,7 +9,8 @@ const { BannerCreateDTO, BannerUpdateDTO } = require("./banner.dto");
 router.get('/home-list', bannerCtrl.listForHome);
 
 router.route('/')
-    .post(auth, 
+    .post(
+        auth, 
         allowRole('admin'),
         setPath('banners'),
         uploader.single('image'),
